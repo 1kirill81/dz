@@ -1,235 +1,166 @@
 package org.future.code.homework;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
-public class HomeWork7 {
+public class HomeWork6 {
     /*
-        ЗАДАНИЕ
 
-        Напишите реализации для методов, используя StreamAPI
+    Напиши реализацию интерфейса Playable:
+        - Метод List<String> play()
+        - Метод List<String> playWith(Playable playable)
 
-        В этих задания ЗАПРЕЩАЕТСЯ использование for и if
-        Тело каждого метода должно начинаться с ключевого слова return
-        (т.е. задания должны быть выполнены за одно выражение)
-     */
+    Напиши реализацию абстрактного класса Instrument:
+        - Класс должен релизовать интерфейс Playable
+        - Поля класса - sound:String, times:Integer (колличество посторейний звука) (+ конструктор/геттеры)
+        - Реализация List<String> play() - метод возвращает список из одной
+            строки сформированной по правилу (sound + " ") * times
+        - Реализация List<String> playWith(Playable playable) - метод должен вернуть массив
+            результатов игры интсруметов в порядке вызова - сначала класс у которого вызвали метод,
+            затем класс уоторый передали в качестве аргумента
 
-    /**
-     * Метод должен вернуть список людей с фамилией или именем King
-     */
-    public static List<String> methodOne(List<String> names) {
-        List<String> result = names.stream()
-                .filter(o -> 0.contains("King"))
-                .collect(Collectors.toList());
-        return result;
+    Напиши реализацию классов Guitar и Drum:
+        - Классы наследуют класс Instrument
+        - Конструкторы классов не должны принимать никакие агрументы
+        - sound для Guitar "Трунь" и times 2
+        - sound для Drum "Бац" и times 3
+
+    Напиши реализацию класса Orchestra
+        - Поля - instruments:List<Instrument> (+геттер)
+        - Конструктор класса должен принимать любое число агрументов типа Instrument
+            Подстказка: загугли что такое функции с переменным числом агрументов и сделай так же
+        - Класс должен реализовать интерфейс Playable
+        - Реализация List<String> play() - вызываются методы play всех инструментов оркестра,
+            результаты вызовов собираются в спиок и возвращаются
+        - Реализация List<String> playWith(Playable playable) - метод должен вернуть массив
+            результатов в порядке вызова - сначала класс у которого вызвали метод,
+            затем класс уоторый передали в качестве аргумента
+ */
+
+    public interface Playable {
+        List<String> play();
+        List<String> playMith(Playable playable);
     }
 
-    /**
-     * Метод должен вернуть список уникальных фамилий (2 позиция в строке)
-     */
-    public static List<String> methodTwo(List<String> names) {
-        List<String> result = names.stream()
-                .map(o -> 0.substring(o.index0f('') + 1))
-                .distinct()
-                .collect(Collectors.toList());
-        return result;
+
+    public static abstract class Instrument implements Playable {
+        String sound;
+        Integer times;
+        public List<String> play() {
+            ArrayList<String> result = new ArrayList<>();
+            String str = '';
+            for(int i = 0; i < times; i++) {
+                if (i != times - 1) {
+                    str += sound + '';
+                } else {
+                    str += snund;
+                }
+
+            }
+            result.add(str);
+            return result;
+        }
+        public Lisy<String> playWith(Playable playable){
+            ArrayList<String> result  = new ArrayList<>();
+            result.addAll(play());
+            result.addAll(playable.play());
+            return result;
+        }
+    }
+    public static class Guitar extends Instrument{
+        // Напиши здесь свою реализацию класса Instrument
+        public Guitar() {
+            super();
+            this.sound = "Трунь";
+            this.times = 2;
+        }
     }
 
-    /**
-     * Метод должен вернуть список уникальных имен, начинающихся с L
-     */
-    public static List<String> methodThree(List<String> names) {
-        List<String> result = names.stream()
-                .map(o -> o.substring(0, o.index0f(' ')))
-                .filter(o -> 0.charAt(0) == 'L')
-                .distinct()
-                .collect(Collectors.toList());
-        return result;
+    public static class Drum extends Instrument{
+        // Напиши здесь свою реализацию класса Instrument
+        public Drum() {
+            super();
+            this.sound = "бац";
+            this.times = 3;
+        }
     }
 
-    /**
-     * Метод должен вернуть список уникальных фамилий, начинающихся с W, отсортированный по алфавиту
-     */
-    public static List<String> methodFour(List<String> names) {
-        List<String> result = names.stream()
-                .map(o -> 0.substring(o.index0f() + 1))
-                .filter(o -> 0.charAt(0) == 'W')
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
-        return result;
-    }
+    public static class Orchestra {
+        // Напиши здесь свою реализацию класса Orchestra
+        List<Instrument> instruments = new ArrayList<>();
 
-    /**
-     * Метод должен вернуть количество имен длинее чем 6 символов
-     */
-    public static Integer methodFive(List<String> names) {
-        int result = (int) names.stream()
-                .map(o -> 0.substring(0, o.index0f()))
-                .distinct()
-                .filter(o -> o.length() > 6)
-                .count();
-        return result;
-    }
+        public Orchestra(Instrument… instrument) {
+            instruments.addAll(Arrays.asList(instrument));
+        }
 
-    /**
-     * Метод должен вернуть суммарное количество уникальных имён и фамилий, длиннее 5 символов
-     * P. S. Самостоятельно почитайте про метод flatMap()
-     */
-    public static Integer methodSix(List<String> names) {
-        // Твой код здесь
-        return 0;
-    }
+        public List<Instrument> getInstruments() {
+            return instruments;
+        }
 
-    /**
-     * Метод должен вернуть имена людей, чья фамилия начинается с K или S, в формате имя + первая буква фамилии,
-     * например "David Z.". Список должен быть отсортирован по алфавиту и состоять только из уникальных значений
-     */
-    public static List<String> methodSeven(List<String> names) {
-        List<String> result = names.stream()
-                        .filter(o -> o.charAt(o.index0f(' ') + 1) == 'K' || o.charAt(o.index0f(' ') + 1) == 'S')
-                        .map(o -> o.substring(0, o.index0f(' ') + 2 + '.')
-                        .distinct()
-                        .sorted()
-                        .collect(Collectors.toList());
-        return result;
+        @Override
+        public List<String> play() {
+            ArrayList<String> result = new ArrayList<>();
+            for (int i = 0; i < instruments.size(); i++) {
+                result.addAll(instruments.get(i).play());
+
+            }
+            return result;
+
+
+        }
+
+        @Override
+        public List<String> playWith(Playable playable) {
+            ArrayList<String> result = new ArrayList<>();
+            result.addAll(play());
+            result.addAll(playable.play());
+            return result;
+        }
+
     }
 
     public static void main(String[] args) {
-        AntiCheat.run();
-        printTestCase(KINGS, methodOne(FULL_NAMES));
-        printTestCase(UNIQ_SURNAMES, methodTwo(FULL_NAMES));
-        printTestCase(NAMES_STARTS_WITH_L, methodThree(FULL_NAMES));
-        printTestCase(SURNAMES_STARTS_WITH_W_SORTED, methodFour(FULL_NAMES));
-        printTestCase(NAMES_LONGER_THAN_SIX, methodFive(FULL_NAMES));
-        printTestCase(NAMES_AND_SURNAMES_LONGER_THAN_FIVE, methodSix(FULL_NAMES));
-        printTestCase(NAMES_WITH_LETTER_SORTED, methodSeven(FULL_NAMES));
+        var guitar = new Guitar();
+        var drum = new Drum();
+        print("Guitar: Гитара создалась", true);
+        print("Drum:   Барабан создался", true);
+        print("Guitar: play Guitar должно быть " + GUITAR_R, Objects.equals(guitar.play().get(0), GUITAR_R));
+        print("Drum:   play Drum должно быть " + DRUM_R, Objects.equals(drum.play().get(0), DRUM_R));
+        print("Guitar: playWith Drum первая гитара", Objects.equals(guitar.playWith(drum).get(0), GUITAR_R));
+        print("Guitar: playWith Drum последний барабан", Objects.equals(guitar.playWith(drum).get(1), DRUM_R));
+        print("Drum:   playWith Guitar первый барабан", Objects.equals(drum.playWith(guitar).get(0), DRUM_R));
+        print("Drum:   playWith Guitar последняя гитара", Objects.equals(drum.playWith(guitar).get(1), GUITAR_R));
+
+        var emptyOrchestra = new Orchestra();
+        var orchestra = new Orchestra(new Guitar(), new Drum(), new Guitar(), new Drum());
+        print("EmptyOrchestra: Пустой оркестр создался", true);
+        print("EmptyOrchestra: Инструменты должны быть пустым списком", emptyOrchestra.getInstruments() != null);
+        print("Orchestra: Оркестр создался", true);
+        print("Orchestra: В оркестре должно быть 4 инструмента", orchestra.getInstruments().size() == 4);
+        print("Orchestra: Должны сыграть 4 инструмента", orchestra.play().size() == 4);
+        print("Orchestra: Гитара играет первая", Objects.equals(orchestra.play().get(0), GUITAR_R));
+        print("Orchestra: Барабан играет второй", Objects.equals(orchestra.play().get(1), DRUM_R));
+        print("Orchestra: Гитара играет третья", Objects.equals(orchestra.play().get(2), GUITAR_R));
+        print("Orchestra: Барабан играет четвертый", Objects.equals(orchestra.play().get(3), DRUM_R));
+        print("Orchestra: Должны сыграть 5 инструментов", orchestra.playWith(new Guitar()).size() == 5);
+        print("Orchestra: Гитара играет последняя", Objects.equals(orchestra.playWith(new Guitar()).get(4), GUITAR_R));
     }
 
-    private static final List<String> FULL_NAMES = List.of(
-            "Joseph Smith", "Thomas Doyle", "Ronald Pratt", "Thomas Spencer", "King Lee",
-            "Gregory Smith", "Leroy Zimmerman", "Lee Smith", "Michael Harrington", "Lee Daniels",
-            "Eugene Williams", "Lee Terry", "Arnold Fowler", "Billy Harrison", "Lee Bennett", "Lee Evans",
-            "Ronald Diaz", "Leonard King", "Timothy Smith", "George Lee", "King Mann", "Dean Wright",
-            "Lee Richards", "Arthur Smith", "Gregory Moore", "Larry Hall", "Patrick Moore", "Ben Smith",
-            "Jose Smith", "Michael Parker", "Jeff Smith", "Larry Thompson", "Joel Smith", "Ivan Spencer",
-            "Robert Anderson", "Lee Phillips", "Stanley Warren", "William Sanchez", "Jamie McDonald",
-            "David Griffith", "Terry Hicks", "Larry Johnson", "Mike Fowler", "Ivan Shaw", "Lee Stevenson",
-            "Lee Powell", "Larry King", "Lee Mitchell", "Robert Diaz", "John Fowler", "Todd Cox",
-            "David James", "Willie Bryan", "Thomas Howard", "Ivan Stanley", "Paul Harper", "Robert King",
-            "David Stanley", "Dale Fletcher", "Larry Mullins", "Arthur King", "Robert King", "John King",
-            "Larry Coleman", "Anthony King", "Ivan Johnson", "Ivan Mann", "Michael Diaz", "Leroy Smith",
-            "King Wagner", "David Stanley", "Ivan Willis", "Ivan Stewart", "Frank King", "Roland Jones",
-            "Leroy Warren", "Rodney Bailey", "David King", "Randy King", "James Soto", "James Parker",
-            "Bobby Stanley", "Leroy Cooper", "Michael Woods", "David Mann", "Lee Padilla", "Samuel Shelton",
-            "Jesse Simmons", "Ivan Stanley", "Lee Gibson", "Bryan King", "David Brooks", "David Fowler",
-            "Robert Fowler", "Ivan King", "Donald Thomas", "Leroy Ramsey", "Russell Diaz", "David Torres"
-    );
+    /* Техническая секция - сюда писать ничего не надо */
 
-    private static final List<String> KINGS = List.of(
-            "King Lee", "Leonard King", "King Mann", "Larry King", "Robert King", "Arthur King",
-            "Robert King", "John King", "Anthony King", "King Wagner", "Frank King", "David King", "Randy King",
-            "Bryan King", "Ivan King"
-    );
-
-    private static final List<String> UNIQ_SURNAMES = List.of(
-            "Smith", "Doyle", "Pratt", "Spencer",
-            "Lee", "Zimmerman", "Harrington", "Daniels", "Williams", "Terry", "Fowler", "Harrison",
-            "Bennett", "Evans", "Diaz", "King", "Mann", "Wright", "Richards", "Moore", "Hall", "Parker",
-            "Thompson", "Anderson", "Phillips", "Warren", "Sanchez", "McDonald", "Griffith", "Hicks",
-            "Johnson", "Shaw", "Stevenson", "Powell", "Mitchell", "Cox", "James", "Bryan", "Howard",
-            "Stanley", "Harper", "Fletcher", "Mullins", "Coleman", "Wagner", "Willis", "Stewart",
-            "Jones", "Bailey", "Soto", "Cooper", "Woods", "Padilla", "Shelton", "Simmons", "Gibson",
-            "Brooks", "Thomas", "Ramsey", "Torres"
-    );
-
-    private static final List<String> NAMES_STARTS_WITH_L = List.of(
-            "Leroy", "Lee", "Leonard", "Larry"
-    );
-
-    private static final List<String> SURNAMES_STARTS_WITH_W_SORTED = List.of(
-            "Wagner", "Warren", "Williams", "Willis", "Woods", "Wright"
-    );
-
-    private static final List<String> NAMES_WITH_LETTER_SORTED = List.of(
-            "Anthony K.", "Arthur K.", "Arthur S.", "Ben S.", "Bobby S.", "Bryan K.", "David K.",
-            "David S.", "Frank K.", "Gregory S.", "Ivan K.", "Ivan S.", "James S.", "Jeff S.", "Jesse S.",
-            "Joel S.", "John K.", "Jose S.", "Joseph S.", "Larry K.", "Lee S.", "Leonard K.", "Leroy S.",
-            "Randy K.", "Robert K.", "Samuel S.", "Thomas S.", "Timothy S.", "William S."
-    );
-
-    private static final Integer NAMES_LONGER_THAN_SIX = 9;
-
-    private static final Integer NAMES_AND_SURNAMES_LONGER_THAN_FIVE = 61;
-
-    public static class AntiCheat {
-        public static void run() {
-            List<String> antiCheatList = new ArrayList<>();
-            antiCheatList.addAll(FULL_NAMES);
-            antiCheatList.addAll(KINGS);
-            antiCheatList.addAll(UNIQ_SURNAMES);
-            antiCheatList.addAll(NAMES_STARTS_WITH_L);
-            antiCheatList.addAll(SURNAMES_STARTS_WITH_W_SORTED);
-            antiCheatList.addAll(NAMES_WITH_LETTER_SORTED);
-            antiCheatList.add(NAMES_LONGER_THAN_SIX.toString());
-            antiCheatList.add(NAMES_AND_SURNAMES_LONGER_THAN_FIVE.toString());
-            calcHash(antiCheatList);
-        };
-
-        public static String bytesToHex(byte[] bytes) {
-            char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
-            char[] hexChars = new char[bytes.length * 2];
-            for (int j = 0; j < bytes.length; j++) {
-                int v = bytes[j] & 0xFF;
-                hexChars[j * 2] = HEX_ARRAY[v >>> 4];
-                hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
-            }
-            return new String(hexChars);
-        }
-
-        public static void calcHash(List<String> list) {
-            String total = String.join("", list);
-            try {
-                MessageDigest md = MessageDigest.getInstance("MD5");
-                md.update(total.getBytes());
-                byte[] digest = md.digest();
-                System.out.println("AntiCheatCheck: " + bytesToHex(digest));
-            } catch (NoSuchAlgorithmException ignored) {}
-        }
+    private static void print(String condition, Boolean act) {
+        Function<String, String> yellow = str -> "\u001B[33m" + str + "\u001B[0m";
+        System.out.print( "TEST CASE " + yellow.apply(constLen(condition, 55)));
+        if (act) System.out.print("✅"); else System.out.print("❌");
+        System.out.println();
     }
 
-    public static String constLen(String str, int len) {
+    private static String constLen(String str, int len) {
         StringBuilder sb = new StringBuilder(str);
         while (len-- - str.length() > 0) sb.append(" ");
         return sb.toString();
     }
 
-    public static void printTestCase(List<String> exp, List<String> act) {
-        System.out.println();
-        Function<String, String> green = str -> "\u001B[34m" + str + "\u001B[0m";
-        Function<String, String> yellow = str -> "\u001B[33m" + str + "\u001B[0m";
-        System.out.println("Ожидание: " + yellow.apply(constLen(exp.toString(), 15)));
-        System.out.println("Реальность: " + green.apply(constLen(act.toString(), 15)));
-        System.out.print("RESULT ");
-        if (Objects.equals(exp, act)) System.out.print("✅"); else System.out.print("❌");
-        System.out.println();
-    }
-
-    public static void printTestCase(Integer exp, Integer act) {
-        System.out.println();
-        Function<String, String> green = str -> "\u001B[34m" + str + "\u001B[0m";
-        Function<String, String> yellow = str -> "\u001B[33m" + str + "\u001B[0m";
-        System.out.println("Ожидание: " + yellow.apply(constLen(exp.toString(), 15)));
-        System.out.println("Реальность: " + green.apply(constLen(act.toString(), 15)));
-        System.out.print("RESULT ");
-        if (Objects.equals(exp, act)) System.out.print("✅"); else System.out.print("❌");
-        System.out.println();
-    }
+    private static final String GUITAR_R = "Трунь Трунь";
+    private static final String DRUM_R = "Бац Бац Бац";
 }
